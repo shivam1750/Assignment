@@ -3,7 +3,7 @@ name: Build Docker Image
 on:
   push:
     branches:
-      - main  
+      - main
   pull_request:
     types:
       - closed
@@ -18,7 +18,7 @@ jobs:
 
       - name: Check for build trigger condition
         run: |
-          if [[ ${{ github.event_name }} == 'push' && ${{ contains(github.event.head_commit.message, 'BUILD_CONTAINER_IMAGE') }} == false ]]; then
+          if [[ "${{ github.event_name }}" == 'push' && "${{ github.event.head_commit.message }}" != *"BUILD_CONTAINER_IMAGE"* ]]; then
             echo "Skipping container image build since commit message doesn't contain 'BUILD_CONTAINER_IMAGE'"
             exit 0
           fi
@@ -31,4 +31,3 @@ jobs:
 
       - name: Push Docker image to Docker Hub
         run: docker push ajinkyak423/assignment:latest
-      
