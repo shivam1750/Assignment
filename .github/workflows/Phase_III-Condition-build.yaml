@@ -16,6 +16,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Set executable permission for check-commit-message script
+        run: chmod +x ./.github/actions/check-commit-message
+
       - name: Check for build trigger condition
         run: ./.github/actions/check-commit-message
 
