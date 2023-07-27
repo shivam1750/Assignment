@@ -1,0 +1,21 @@
+name: Check Pull Request Merged
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check if pull request is merged
+        run: |
+          if [ "${{ github.event.pull_request.merged }}" == 'false' ]; then
+            echo "Skipping container image build since the pull request is not merged"
+            exit 78
+          fi

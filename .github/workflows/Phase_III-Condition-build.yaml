@@ -13,19 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Include Check Commit Message workflow
+        uses: ./.github/actions/check-commit-message.yaml
 
-      - name: Check for build trigger condition
-        run: |
-          if [ "${{ github.event_name }}" == 'push' ] && ! grep -q "BUILD_CONTAINER_IMAGE" <<< "${{ github.event.head_commit.message }}"; then
-            echo "Skipping container image build since commit message doesn't contain 'BUILD_CONTAINER_IMAGE'"
-            exit 78
-          fi
-          if [ "${{ github.event_name }}" == 'pull_request' ] && [ "${{ github.event.pull_request.merged }}" == 'false' ]; then
-            echo "Skipping container image build since the pull request is not merged"
-            exit 78
-          fi
+      - name: Include Check Pull Request Merged workflow
+        uses: ./.github/actions/check-pull-req.yaml
 
       - name: Log in to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}

@@ -1,0 +1,21 @@
+name: Check Commit Message
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check for BUILD_CONTAINER_IMAGE message
+        run: |
+          if ! grep -q "BUILD_CONTAINER_IMAGE" <<< "${{ github.event.head_commit.message }}"; then
+            echo "Skipping container image build since commit message doesn't contain 'BUILD_CONTAINER_IMAGE'"
+            exit 78
+          fi
