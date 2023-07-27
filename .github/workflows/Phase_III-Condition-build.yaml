@@ -18,7 +18,7 @@ jobs:
 
       - name: Check for build trigger condition
         run: |
-          if [[ "${{ github.event_name }}" == 'push' && "${{ github.event.head_commit.message }}" != *"BUILD_CONTAINER_IMAGE"* ]]; then
+          if [ "${{ github.event_name }}" == 'push' ] && ! grep -q "BUILD_CONTAINER_IMAGE" <<< "${{ github.event.head_commit.message }}"; then
             echo "Skipping container image build since commit message doesn't contain 'BUILD_CONTAINER_IMAGE'"
             exit 0
           fi
