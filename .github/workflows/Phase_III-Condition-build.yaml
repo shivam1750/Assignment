@@ -20,11 +20,11 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" == 'push' ] && ! grep -q "BUILD_CONTAINER_IMAGE" <<< "${{ github.event.head_commit.message }}"; then
             echo "Skipping container image build since commit message doesn't contain 'BUILD_CONTAINER_IMAGE'"
-            exit 0
+            exit 78
           fi
           if [ "${{ github.event_name }}" == 'pull_request' ] && [ "${{ github.event.pull_request.merged }}" == 'false' ]; then
             echo "Skipping container image build since the pull request is not merged"
-            exit 0
+            exit 78
           fi
 
       - name: Log in to Docker Hub
