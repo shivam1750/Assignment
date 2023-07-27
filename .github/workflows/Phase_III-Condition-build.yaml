@@ -16,11 +16,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set executable permission for check-commit-message script
-        run: chmod +x ./.github/actions/check-commit-message
-
       - name: Check for build trigger condition
-        run: ./.github/actions/check-commit-message
+        run: |
+          if [ "${{ github.event_name }}" == 'push' ] && ! grep -q "BUILD_CONTAINER_IMAGE" <<< "${{ github.event.head_commit.message }}"; then
+            echo "Skipping container image build since commit message doesn't contain 'BUILD_CONTAINER_IMAGE'"
+            exit 0
+          fi
+          if [ "${{ github.event_name }}" == 'pull_request' ] && [ "${{ github.event.pull_request.merged }}" == 'false' ]; then
+            echo "Skipping container image build since the pull request is not merged"
+            exit 0
+          fi
 
       - name: Log in to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
