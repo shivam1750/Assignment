@@ -17,11 +17,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Check for build trigger condition
-        run: |
-          if [ "${{ github.event_name }}" == 'push' ] && ! grep -q "BUILD_CONTAINER_IMAGE" <<< "${{ github.event.head_commit.message }}"; then
-            echo "Skipping container image build since commit message doesn't contain 'BUILD_CONTAINER_IMAGE'"
-            exit 0
-          fi
+        run: ./.github/actions/check-commit-message
 
       - name: Log in to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
