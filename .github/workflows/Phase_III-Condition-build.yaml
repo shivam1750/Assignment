@@ -9,23 +9,30 @@ on:
       - closed
 
 jobs:
-  build:
+  build-on-push:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && contains(github.event.head_commit.message, 'BUILD_CONTAINER_IMAGE')
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Check for build trigger condition
-        run: |
-          if [ "${{ github.event_name }}" == 'push' ] && ! grep -q "BUILD_CONTAINER_IMAGE" <<< "${{ github.event.head_commit.message }}"; then
-            echo "Skipping container image build since commit message doesn't contain 'BUILD_CONTAINER_IMAGE'"
-            exit 0
-          fi
-          if [ "${{ github.event_name }}" == 'pull_request' ] && [ "${{ github.event.pull_request.merged }}" == 'false' ]; then
-            echo "Skipping container image build since the pull request is not merged"
-            exit 0
-          fi
+      - name: Log in to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker image
+        run: docker build -t ajinkyak423/assignment:latest .
+
+      - name: Push Docker image to Docker Hub
+        run: docker push ajinkyak423/assignment:latest
+
+  build-on-merged-pull-request:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       - name: Log in to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
