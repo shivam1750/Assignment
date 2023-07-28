@@ -32,9 +32,7 @@ Code in `Dockerfile`
 
 Also Code in `main.go` has to be updated to have [`github.com/xyproto/simpleredis/](http://github.com/xyproto/simpleredis/)v2` 
 
-- Push that image to docker hub.
-
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7223c014-1e6e-45a6-8048-07608aa23476/Untitled.png)
+![Untitled](https://github.com/shivam1750/Assignment/blob/main/images/build%20.png)
 
 ## - Push that image to docker hub.
 
@@ -98,9 +96,9 @@ Code Explanation:
     
 6. Obtained Minikube Ip using `minikube ip`
 7. Accessed application using **`<Minikube-IP>:30080`**
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/300dfcb9-e3ac-44b1-aa42-5d51d693c910/Untitled.png)
+![Untitled](https://github.com/shivam1750/Assignment/blob/8dfb055172bd8294379fbb819dedc8d3308a3db0/images/minikube%20setup.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a521013f-d4cd-4732-a3f5-a502e4a903b0/Untitled.png)
+![Untitled](https://github.com/shivam1750/Assignment/blob/8dfb055172bd8294379fbb819dedc8d3308a3db0/images/minikube%20deploymane.png)
 
 # Phase III
 
@@ -115,11 +113,11 @@ Code Explanation:
 1.  When PR get merged in main/master branch from any other branch.
 
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0664b1e6-2bb1-49bf-9bb6-57d789f9fc4a/Untitled.png)
+    ![Untitled](https://github.com/shivam1750/Assignment/blob/8dfb055172bd8294379fbb819dedc8d3308a3db0/images/pull%20request%20from%20test%20branch%20to%20main.png)
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cdd7a8cb-15c4-4801-8909-978234478644/Untitled.png)
+    ![Untitled](https://github.com/shivam1750/Assignment/blob/8dfb055172bd8294379fbb819dedc8d3308a3db0/images/confirming%20merge%20.png)
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c7e2d374-2866-40a1-be4a-dcb0d5d5a50d/Untitled.jpeg)
+    ![Untitled](https://github.com/shivam1750/Assignment/blob/8dfb055172bd8294379fbb819dedc8d3308a3db0/images/pull%20request%20merged.jpg)
     
 2.  When commit message contains BUILD_CONTAINER_IMAGE string
     1. Added script in `Phasee_III-Condition-build.yaml` file to do so 
@@ -138,6 +136,6 @@ Code Explanation:
     ```
     
     useing **`exit 78`** to exit the workflow with a neutral exit status, indicating that the workflow was intentionally stopped due to the condition not being met. With this modification, the workflow will stop early without performing the subsequent steps if the condition is not satisfied, preventing the Docker image from being built and pushed.
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bdd41da3-2d3a-4b7e-afbb-bdf0806b3070/Untitled.png)
+![Untitled](https://github.com/shivam1750/Assignment/blob/8dfb055172bd8294379fbb819dedc8d3308a3db0/images/no%20build.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/500e50e3-eb0b-40d2-9393-85185715f2fc/Untitled.png)
+![Untitled](https://github.com/shivam1750/Assignment/blob/8dfb055172bd8294379fbb819dedc8d3308a3db0/images/condition%20build%20success.png)
